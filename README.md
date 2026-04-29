@@ -37,7 +37,7 @@ worktree: /Users/you/code/repo-login-button-mobile
 
 ## Conventions (current)
 
-- Branch: `philip/<slug>` — change in `commands/handoff.md` to your taste.
+- Branch: `handoff/<slug>` — change in `commands/handoff.md` to your taste.
 - Base: `dev` if it exists, else repo default.
 - Worktree: `../<repo>-<slug>` (sibling dir).
 - Commits: Conventional Commits.

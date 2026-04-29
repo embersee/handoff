@@ -15,14 +15,14 @@ You are executing the **handoff** workflow. The user has handed off a task and e
   - Else use the repo's default branch: `gh repo view --json defaultBranchRef -q .defaultBranchRef.name`.
   - If still ambiguous, ask the user once.
 - Pick a **slug** from the task (kebab-case, ≤ 4 words, no ticket prefix unless one is in the input).
-- Branch name: `philip/<slug>`.
+- Branch name: `handoff/<slug>`.
 - Worktree path: `../<repo>-<slug>` (sibling of the current repo dir).
 - If the branch or worktree path already exists → stop and ask: resume the existing one, or pick a new slug?
 
 ## 2. Create the worktree
 ```bash
 git fetch origin <base>
-git worktree add -b philip/<slug> ../<repo>-<slug> origin/<base>
+git worktree add -b handoff/<slug> ../<repo>-<slug> origin/<base>
 cd ../<repo>-<slug>
 ```
 All subsequent steps run inside the new worktree.
@@ -40,7 +40,7 @@ All subsequent steps run inside the new worktree.
 
 ## 5. Push & open PR
 ```bash
-git push -u origin philip/<slug>
+git push -u origin handoff/<slug>
 gh pr create --base <base> --title "<task title>" --body "$(cat <<'EOF'
 ## Summary
 - <1–3 bullets>
@@ -68,7 +68,7 @@ No summary, no "I did X", no emojis.
 # Failure modes
 - Base not fast-forwardable from origin → stop and report; never hard-reset.
 - Push rejected → stop and report; never `--force`.
-- `gh pr create` fails → print compare URL `https://github.com/<owner>/<repo>/compare/<base>...philip/<slug>`.
+- `gh pr create` fails → print compare URL `https://github.com/<owner>/<repo>/compare/<base>...handoff/<slug>`.
 - Tests/lint/typecheck fail → stop, report which check, ask whether to fix or open as draft.
 - Worktree exists → ask before reusing.
 
