@@ -11,6 +11,15 @@ $ARGUMENTS
 
 # Steps
 
+## 0. Conservative cleanup sweep
+Before starting work, sweep `handoff/*` worktrees in the current repo and remove ones whose PR is **merged or closed**. This is the conservative variant — leave open PRs and no-PR branches alone (the aggressive cleanup is `/handoff-clean`).
+
+- `git worktree list --porcelain` → filter to `handoff/*` branches (skip the current one if applicable).
+- For each: check `git -C <path> status --porcelain` (skip if dirty), then `gh pr list --head <branch> --state all --json state --limit 1`.
+- If PR state is `MERGED` or `CLOSED` → `git worktree remove <path>` and `git branch -D <branch>`.
+- If `OPEN`, no PR, dirty, or unpushed commits → leave it alone.
+- Don't print anything unless something was removed; if so, list the removed paths in one line.
+
 ## 1. Pre-flight
 - Confirm the current directory is inside a git repo (`git rev-parse --is-inside-work-tree`). If not, stop and tell the user.
 - Run `gh auth status`. If not authed, stop and ask the user to auth.

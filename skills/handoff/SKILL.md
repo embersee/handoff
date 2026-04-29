@@ -7,6 +7,14 @@ You are executing the **handoff** workflow. The user has handed off a task and e
 
 # Steps
 
+## 0. Conservative cleanup sweep
+Before starting work, sweep `handoff/*` worktrees in the current repo and remove ones whose PR is **merged or closed**. Leave open PRs and no-PR branches alone (the aggressive cleanup is `/handoff-clean`).
+
+- `git worktree list --porcelain` → filter to `handoff/*` branches (skip the current one).
+- For each: skip if dirty (`git status --porcelain`) or has unpushed commits. Otherwise `gh pr list --head <branch> --state all --json state --limit 1`.
+- If PR state is `MERGED` or `CLOSED` → `git worktree remove <path>` and `git branch -D <branch>`.
+- Stay silent unless something was removed; then list removed paths in one line.
+
 ## 1. Pre-flight
 - Confirm the current directory is inside a git repo (`git rev-parse --is-inside-work-tree`). If not, stop and tell the user.
 - Run `gh auth status`. If not authed, stop and ask the user to auth.

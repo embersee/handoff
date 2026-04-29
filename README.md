@@ -43,8 +43,17 @@ worktree: /Users/you/code/repo-login-button-mobile
 - Commits: Conventional Commits.
 - PR: ready for review (not draft) by default.
 
+## Cleanup
+
+Worktrees stick around until you remove them. Two mechanisms:
+
+- **Auto-sweep on `/handoff`** — at the start of every handoff, the agent removes `handoff/*` worktrees whose PR is **merged or closed**. Conservative: open PRs, no-PR branches, dirty trees, and unpushed commits are left alone.
+- **`/handoff-clean`** — aggressive. Removes worktrees whose PR is merged/closed **and** worktrees whose `handoff/*` branch has no PR at all. Still skips dirty / unpushed / open-PR worktrees.
+
+Run from the main worktree, not from inside a handoff worktree.
+
 ## Roadmap
 
 - Plugin packaging (so it's installable via `/plugin marketplace add`).
-- Auto-cleanup of merged worktrees.
 - Resume flow when handing off follow-up feedback to an existing PR.
+- Optional `/schedule`'d weekly background sweep.
