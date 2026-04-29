@@ -41,6 +41,22 @@ All subsequent steps run inside the new worktree.
 - For one-liners or obvious fixes: just go.
 - If the repo has tests / lint / typecheck, run them after the change. Block the PR on failure unless the user explicitly said draft.
 
+### Allowed vs forbidden commands during verification
+- **Allowed (one-shot, must terminate):** `build`, `test`, `lint`, `typecheck`, `tsc`, `format --check`, single-run scripts.
+- **FORBIDDEN — never run:** any long-running / watch / server command. This includes but is not limited to:
+  - `npm run dev`, `pnpm dev`, `yarn dev`, `bun dev`
+  - `next dev`, `vite`, `vite dev`, `astro dev`, `nuxt dev`, `remix dev`
+  - `*--watch`, `*-w` flag variants, `tsc --watch`, `jest --watch`
+  - `npm start`, `pnpm start`, `yarn start` (when they boot a server)
+  - `cargo watch`, `cargo run` against a server target
+  - Anything that does not exit on its own
+- If verifying behavior **requires** a running server, stop and ask the user — do not start one in the background.
+- Before running any script you're unsure about, inspect `package.json` (or equivalent) to confirm it terminates. If in doubt, skip it and note this in the PR's Test plan section.
+
+### Process hygiene
+- If you start ANY background process during the workflow (even accidentally — e.g. a build step that spawns a watcher), you MUST terminate it before reporting back. Track every PID you spawn and `kill` it at the end.
+- Before the final reply, run `jobs -l` (or equivalent) and confirm there are no leftover processes from this session.
+
 ## 4. Commit
 - **Conventional Commits** (`fix:`, `feat:`, `chore:`, `refactor:`, `docs:`, `test:`).
 - Split into logical commits if the change has distinct parts.
