@@ -1,6 +1,6 @@
 # handoff
 
-A Claude Code slash command + skill for shipping a task as a PR from a clean, isolated git worktree.
+A Claude Code skill (plus a `/handoff-clean` companion command) for shipping a task as a PR from a clean, isolated git worktree.
 
 ## What it does
 
@@ -17,11 +17,11 @@ No summaries. No co-author tags. No force-push escape hatches.
 
 ```bash
 git clone git@github.com:<you>/handoff.git ~/code/handoff
-ln -s ~/code/handoff/commands/handoff.md ~/.claude/commands/handoff.md
 ln -s ~/code/handoff/skills/handoff ~/.claude/skills/handoff
+ln -s ~/code/handoff/commands/handoff-clean.md ~/.claude/commands/handoff-clean.md
 ```
 
-Now `/handoff <task>` is available in any Claude Code session, and the skill auto-triggers when the request matches.
+The skill auto-triggers when you ask Claude to ship something as a PR; you can also invoke it explicitly as `/handoff <task>`. The companion `/handoff-clean` command runs the aggressive worktree sweep on demand.
 
 ## Usage
 
@@ -37,7 +37,7 @@ worktree: /Users/you/code/repo-login-button-mobile
 
 ## Conventions (current)
 
-- Branch: `handoff/<slug>` — change in `commands/handoff.md` to your taste.
+- Branch: `handoff/<slug>` — change in `skills/handoff/SKILL.md` to your taste.
 - Base: the currently checked-out branch by default. Override by saying "handoff from main" / "off of release/v2" / etc. in the task.
 - Worktree: `../<repo>-<slug>` (sibling dir).
 - Commits: Conventional Commits.
