@@ -1,4 +1,4 @@
-# claude-handoff
+# handoff
 
 A Claude Code slash command + skill for shipping a task as a PR from a clean, isolated git worktree.
 
@@ -16,9 +16,9 @@ No summaries. No co-author tags. No force-push escape hatches.
 ## Install (local, manual)
 
 ```bash
-git clone git@github.com:<you>/claude-handoff.git ~/code/claude-handoff
-ln -s ~/code/claude-handoff/commands/handoff.md ~/.claude/commands/handoff.md
-ln -s ~/code/claude-handoff/skills/handoff ~/.claude/skills/handoff
+git clone git@github.com:<you>/handoff.git ~/code/handoff
+ln -s ~/code/handoff/commands/handoff.md ~/.claude/commands/handoff.md
+ln -s ~/code/handoff/skills/handoff ~/.claude/skills/handoff
 ```
 
 Now `/handoff <task>` is available in any Claude Code session, and the skill auto-triggers when the request matches.
