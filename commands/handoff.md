@@ -24,9 +24,10 @@ Before starting work, sweep `handoff/*` worktrees in the current repo and remove
 - Confirm the current directory is inside a git repo (`git rev-parse --is-inside-work-tree`). If not, stop and tell the user.
 - Run `gh auth status`. If not authed, stop and ask the user to auth.
 - Determine the **base branch**:
-  - If `origin/dev` exists, use `dev`.
-  - Else use the repo's default branch: `gh repo view --json defaultBranchRef -q .defaultBranchRef.name`.
-  - If still ambiguous, ask the user once.
+  - If the user explicitly named a base in the task input (e.g. "handoff from main", "off of release/v2", "based on staging") → use that branch.
+  - Otherwise → use the **currently checked-out branch** (`git branch --show-current`). The default is "branch off whatever I'm on right now."
+  - If HEAD is detached or there's no current branch → stop and ask the user which base to use.
+  - Verify the base exists on origin (`git ls-remote --exit-code --heads origin <base>`). If not, stop and ask.
 - Pick a **slug** from the task (kebab-case, ≤ 4 words, no ticket prefix unless one is in the input).
 - Branch name: `handoff/<slug>`.
 - Worktree path: `../<repo>-<slug>` (sibling of the current repo dir).

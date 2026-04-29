@@ -38,7 +38,7 @@ worktree: /Users/you/code/repo-login-button-mobile
 ## Conventions (current)
 
 - Branch: `handoff/<slug>` — change in `commands/handoff.md` to your taste.
-- Base: `dev` if it exists, else repo default.
+- Base: the currently checked-out branch by default. Override by saying "handoff from main" / "off of release/v2" / etc. in the task.
 - Worktree: `../<repo>-<slug>` (sibling dir).
 - Commits: Conventional Commits.
 - PR: ready for review (not draft) by default.
