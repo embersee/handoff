@@ -74,7 +74,7 @@ gh pr create --base <base> --title "<task title>" --body "$(cat <<'EOF'
 - [ ] <how to verify>
 
 ## Context
-<the user's original task input, verbatim>
+<3–4 sentence rewrite of the user's task input — what the problem is and what this PR does about it. Neutral PR-prose, not a quote of the prompt. Strip filler ("hey claude", "can you"), instructions to yourself, and conversational tone. Do NOT paste the original prompt.>
 EOF
 )"
 ```
